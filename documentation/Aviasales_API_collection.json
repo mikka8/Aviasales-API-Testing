@@ -8,17 +8,17 @@
   },
   "item": [
     {
-      "name": "Last request",
+      "name": "/latest_prices",
       "item": [
         {
-          "name": "Empty request",
+          "name": "[BUG] Empty request",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status code is 400\", function () {",
-                  "    pm.response.to.have.status(400);",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -88,7 +88,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=US",
+              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=ULLI",
               "host": [
                 "{{API}}"
               ],
@@ -100,7 +100,7 @@
               "query": [
                 {
                   "key": "origin",
-                  "value": "US"
+                  "value": "ULLI"
                 }
               ]
             }
@@ -168,7 +168,7 @@
       ]
     },
     {
-      "name": "Calendar",
+      "name": "/calendar",
       "item": [
         {
           "name": "origin, destination - 3 symb",
