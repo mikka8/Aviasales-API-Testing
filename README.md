@@ -46,4 +46,4 @@ aviasales-api-testing/
 
 ## Если у вас возникли трудности или вопросы
 Напишите, пожалуйста, мне на почту: ma.primakin@gmail.com 
-или в Telegram: t.me/mikka_8
+или в Telegram: https://t.me/mikka_8
