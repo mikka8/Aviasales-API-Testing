@@ -1,0 +1,571 @@
+{
+  "info": {
+    "_postman_id": "de631d5a-9591-4403-ae95-893084a0da4c",
+    "name": "Aviasales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48153439",
+    "_collection_link": "https://go.postman.co/collection/48153439-de631d5a-9591-4403-ae95-893084a0da4c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Last request",
+      "item": [
+        {
+          "name": "Empty request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/aviasales/v3/get_latest_prices",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "aviasales",
+                "v3",
+                "get_latest_prices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Only origin - valid IATA code",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=LED",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "aviasales",
+                "v3",
+                "get_latest_prices"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Only origin - valid ICAO code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=US",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "aviasales",
+                "v3",
+                "get_latest_prices"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "US"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LED - NQZ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=LED&destination=NQZ",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "aviasales",
+                "v3",
+                "get_latest_prices"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "NQZ"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LED - TSE (ex. NQZ)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/aviasales/v3/get_latest_prices?origin=LED&destination=TSE",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "aviasales",
+                "v3",
+                "get_latest_prices"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "TSE"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Calendar",
+      "item": [
+        {
+          "name": "origin, destination - 3 symb",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "origin, destination - 2 symb",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LE&destination=AE",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LE"
+                },
+                {
+                  "key": "destination",
+                  "value": "AE"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "origin, destination - 4 symb (ICAO)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Error message is present\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.contain(\"the length must be exactly 3\");",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=UUEE&destination=URSS",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "UUEE"
+                },
+                {
+                  "key": "destination",
+                  "value": "URSS"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "departure_date - next month",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Performance test: search under 500ms",
+                  "pm.test(\"Response time is less than 500ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-06",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-06"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "departure_date - Jul 2027",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2027-07",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2027-07"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "departure_date - last month",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-04",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-04"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[BUG] trip duration: 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-07&trip_duration=1",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-07"
+                },
+                {
+                  "key": "trip_duration",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[BUG] trip duration: 0",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-07&trip_duration=0",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-07"
+                },
+                {
+                  "key": "trip_duration",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "[BUG] trip duration: -1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-07&trip_duration=-1",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-07"
+                },
+                {
+                  "key": "trip_duration",
+                  "value": "-1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "{{api-token}}",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "X-Access-Token",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "API",
+      "value": "http://api.travelpayouts.com"
+    },
+    {
+      "key": "api-token",
+      "value": "",
+      "description": "Token from https://app.travelpayouts.com/profile/api-token"
+    }
+  ]
+}
