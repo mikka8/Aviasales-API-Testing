@@ -409,6 +409,27 @@
         },
         {
           "name": "departure_date - Jul 2027",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Данные отсутствуют для далекого будущего (пустой объект)\", function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    // Проверяем, что объект data пустой",
+                  "    pm.expect(Object.keys(responseJson.data).length).to.equal(0);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -442,6 +463,27 @@
         },
         {
           "name": "departure_date - last month",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Данные за прошлый месяц не возвращаются (пустой объект)\", function () {",
+                  "    const responseJson = pm.response.json();",
+                  "       // Проверяем, что объект data пустой",
+                  "    pm.expect(Object.keys(responseJson.data).length).to.equal(0);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -478,6 +520,19 @@
           "event": [
             {
               "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
               "script": {
                 "exec": [
                   ""
@@ -525,6 +580,38 @@
         },
         {
           "name": "[BUG] trip duration: 0",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Проверка логики trip_duration=0 (вылет и возврат в один день)\", function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    ",
+                  "    // Если бэкенд прислал данные, проверим даты внутри первого билета",
+                  "    if (responseJson.data && Object.keys(responseJson.data).length > 0) {",
+                  "        const firstDateKey = Object.keys(responseJson.data)[0];",
+                  "        const flight = responseJson.data[firstDateKey];",
+                  "        ",
+                  "        // Вытаскиваем только дату (YYYY-MM-DD) из строк departure_at и return_at",
+                  "        const depDate = flight.departure_at.split('T')[0];",
+                  "        const retDate = flight.return_at.split('T')[0];",
+                  "        ",
+                  "        // Математика бизнес-логики: при duration=0 даты должны совпадать",
+                  "        pm.expect(depDate).to.equal(retDate, `Ожидалось, что даты совпадут, но вылет: ${depDate}, а возврат: ${retDate}`);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -562,6 +649,21 @@
         },
         {
           "name": "[BUG] trip duration: -1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -591,6 +693,106 @@
                 {
                   "key": "trip_duration",
                   "value": "-1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "departure_date: MM-YYYY",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=07-2026",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "07-2026"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "departure_date: extra-waste params",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{API}}/v1/prices/calendar?origin=LED&destination=AER&departure_date=2026-07&wasteparam=test12345",
+              "host": [
+                "{{API}}"
+              ],
+              "path": [
+                "v1",
+                "prices",
+                "calendar"
+              ],
+              "query": [
+                {
+                  "key": "origin",
+                  "value": "LED"
+                },
+                {
+                  "key": "destination",
+                  "value": "AER"
+                },
+                {
+                  "key": "departure_date",
+                  "value": "2026-07"
+                },
+                {
+                  "key": "wasteparam",
+                  "value": "test12345"
                 }
               ]
             }
